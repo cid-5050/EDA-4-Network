@@ -4,12 +4,17 @@
 Grafo::Grafo() {
 }
 
+std::map<std::string, Vertice *> & Grafo::
+getVertices(void) {
+    return vertices;
+}
+
 
 void Grafo::
-addVertice(const std::string & nombre) {
+addVertice(const std::string & nombre, const std::string & IP, int valor) {
     // Comprueba si el vertice existe ya
     if (vertices.find(nombre) == vertices.end())
-        vertices.insert({nombre, new Vertice(nombre)});
+        vertices.insert({nombre, new Vertice(nombre, IP, valor)});
     else
         throw std::string("Error: Vertice ya existe");
 }
@@ -34,6 +39,7 @@ addArista(const std::string & n1, const std::string & n2, int peso) {
     // (Opcional) Añade v2 como vecino de v1 en la lista de adyacencia
     if (listaAdy.find(v1->nombre) == listaAdy.end())
         listaAdy.insert({v1->nombre, {std::make_pair(v2, peso)}});
+    //{v2->nombre, std::make_pair(v2, peso)}
     else
         listaAdy.at(v1->nombre).push_back(std::make_pair(v2, peso));
 
@@ -50,9 +56,9 @@ addArista(const std::string & n1, const std::string & n2, int peso) {
 
 void Grafo::
 printVertices() const {
-    for (const auto & [nombre, vertice] : vertices) {
+    for (const auto & [nombre, vecinos] : listaAdy) {
         std::cout << nombre << " --> ";
-        for (const auto & [vecino, peso] : vertice->salidas) {
+        for (const auto & [vecino, peso] : vecinos) {
             std::cout << vecino->nombre << " / ";
         }
         std::cout << std::endl;

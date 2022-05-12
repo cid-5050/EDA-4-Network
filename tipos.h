@@ -7,10 +7,14 @@
 
 struct Vertice {
     std::string nombre;
+    std::string IP;
+    int valor;
     std::vector<std::pair<Vertice *, int>> salidas;
 
-    Vertice(std::string n) {
+    Vertice(const std::string & n, const std::string & ip, int v) {
         nombre = n;
+        IP = ip;
+        valor = v;
     }
 };
 
