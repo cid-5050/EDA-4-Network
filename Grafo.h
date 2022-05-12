@@ -21,7 +21,7 @@ class Grafo {
     std::map<std::string, Vertice *> vertices;
     std::vector<Arista *> aristas;
 
-    std::map<std::string, std::vector<std::pair<Vertice *, int>>> listaAdy;
+    std::map<std::string, std::map<std::string, std::pair<Vertice *, int>>> listaAdy;
 };
 
 #endif // GRAFO_H

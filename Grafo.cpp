@@ -33,21 +33,26 @@ addArista(const std::string & n1, const std::string & n2, int peso) {
     Vertice * v1 = (vertices.find(n1)->second);
     Vertice * v2 = (vertices.find(n2)->second);
 
-    // (Opcional) Añade nueva arista al vector de aristas
+    // Añade nueva arista al vector de aristas
     aristas.push_back(new Arista(v1, v2, peso));
 
-    // (Opcional) Añade v2 como vecino de v1 en la lista de adyacencia
+    // Añade v1 a la lista de adyacencia
     if (listaAdy.find(v1->nombre) == listaAdy.end())
-        listaAdy.insert({v1->nombre, {std::make_pair(v2, peso)}});
-    //{v2->nombre, std::make_pair(v2, peso)}
-    else
-        listaAdy.at(v1->nombre).push_back(std::make_pair(v2, peso));
+        listaAdy.insert({v1->nombre, std::map<std::string, std::pair<Vertice *, int>>()});
 
-    // (Opcional) Añade v1 como vecino de v2 en la lista de adyacencia
+    // Añade v2 como vecino de v1 en la lista de adyacencia
+    if (listaAdy.find(v1->nombre)->second.find(v2->nombre)
+            == listaAdy.find(v1->nombre)->second.end())
+        listaAdy.find(v1->nombre)->second.insert({v2->nombre, std::make_pair(v2, peso)});
+
+    // Añade v2 a la lista de adyacencia
     if (listaAdy.find(v2->nombre) == listaAdy.end())
-        listaAdy.insert({v2->nombre, {std::make_pair(v1, peso)}});
-    else
-        listaAdy.at(v2->nombre).push_back(std::make_pair(v1, peso));
+        listaAdy.insert({v2->nombre, std::map<std::string, std::pair<Vertice *, int>>()});
+
+    // Añade v1 como vecino de v2 en la lista de adyacencia
+    if (listaAdy.find(v2->nombre)->second.find(v1->nombre)
+            == listaAdy.find(v2->nombre)->second.end())
+        listaAdy.find(v2->nombre)->second.insert({v1->nombre, std::make_pair(v1, peso)});
 
     // Actualiza la salida de v1, que apunta a v2
     v1->salidas.push_back(std::make_pair(v2, peso));
@@ -56,10 +61,10 @@ addArista(const std::string & n1, const std::string & n2, int peso) {
 
 void Grafo::
 printVertices() const {
-    for (const auto & [nombre, vecinos] : listaAdy) {
-        std::cout << nombre << " --> ";
-        for (const auto & [vecino, peso] : vecinos) {
-            std::cout << vecino->nombre << " / ";
+    for (const auto & [nombreVertice, vecinos] : listaAdy) {
+        std::cout << nombreVertice << " --> ";
+        for (const auto & [nombreVecino, pairVecino] : vecinos) {
+            std::cout << nombreVecino << " / ";
         }
         std::cout << std::endl;
     }
