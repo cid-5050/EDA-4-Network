@@ -21,6 +21,9 @@ class Grafo {
     std::map<std::string, std::map<std::string, std::pair<Vertice *, int>>> &
         getListaAdy(void);
 
+    bool isolatedVertice(void) const;
+    bool mesh(void) const;
+
     bool existeVertice(const std::string & nombre);
     bool sonVecinosDirectos(const std::string & nombreA, const std::string & nombreB);
     bool compartenRed(const std::string & nombreA, const std::string & nombreB);

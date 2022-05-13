@@ -17,6 +17,9 @@ class Network {
 
     std::string generarIP(void);
 
+    bool routerAislado(void) const;
+    bool redMalla(void) const;
+
     bool existeRouter(const std::string & nombre);
     bool compartenRed(const std::string & nombreA, const std::string & nombreB);
 

@@ -27,6 +27,9 @@ addVertice(const std::string & nombre, const std::string & IP, int valor) {
 
 void Grafo::
 addArista(const std::string & n1, const std::string & n2, int peso) {
+    // Comprueba que el vertice no se conecte a el mismo
+    if (n1 == n2)
+        throw std::string("Error: vertice \"" + n1 + "\" no se puede conectar a si mismo");
     // Comprueba que el primer vertice existe
     if (vertices.find(n1) == vertices.end())
         throw std::string("Error: vertice \"") + n1 + std::string("\" no existe");
@@ -61,6 +64,9 @@ addArista(const std::string & n1, const std::string & n2, int peso) {
 
     // Actualiza la salida de v1, que apunta a v2
     v1->salidas.push_back(std::make_pair(v2, peso));
+
+    // Actualiza la salida de v2, que apunta a v1
+    v2->salidas.push_back(std::make_pair(v1, peso));
 }
 
 
@@ -130,6 +136,24 @@ compartenRed(const std::string & nombreA, const std::string & nombreB,
 
     else
         return false;
+}
+
+bool Grafo::
+isolatedVertice() const {
+    for(auto elem: vertices){
+        if(elem.second->salidas.empty())
+            return true;
+    }
+    return false;
+}
+
+bool Grafo::
+mesh() const {
+    for(auto elem: vertices){
+        if(elem.second->salidas.size()!=vertices.size()-1)
+            return false;
+    }
+    return true;
 }
 
 /*std::vector<Vertice *> Grafo::

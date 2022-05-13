@@ -34,3 +34,13 @@ bool Network::
 compartenRed(const std::string & nombreA, const std::string & nombreB) {
     return red.compartenRed(nombreA, nombreB);
 }
+
+bool Network::
+routerAislado(void) const {
+    return red.isolatedVertice();
+}
+
+bool Network::
+redMalla(void) const {
+    return red.mesh();
+}
