@@ -6,6 +6,7 @@ CONFIG -= qt
 SOURCES += \
         Grafo.cpp \
         Network.cpp \
+        funciones.cpp \
         main.cpp
 
 HEADERS += \

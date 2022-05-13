@@ -4,6 +4,8 @@
 #include <tipos.h>
 #include <vector>
 #include <map>
+#include <set>
+#include <funciones.h>
 
 
 class Grafo {
@@ -16,6 +18,22 @@ class Grafo {
     void printVertices(void) const;
 
     std::map<std::string, Vertice *> & getVertices(void);
+    std::map<std::string, std::map<std::string, std::pair<Vertice *, int>>> &
+        getListaAdy(void);
+
+    bool existeVertice(const std::string & nombre);
+    bool sonVecinosDirectos(const std::string & nombreA, const std::string & nombreB);
+    bool compartenRed(const std::string & nombreA, const std::string & nombreB);
+    bool compartenRed(const std::string & nombreA, const std::string & nombreB,
+                      std::set<std::string> & listaCheck, std::vector<std::string> & recorrido);
+
+    std::vector<Vertice *> shortestPath(const std::string & nombreA,
+                                        const std::string & nombreB);
+    std::vector<Vertice *> shortestPath(const std::string & nombreA,
+                                        const std::string & nombreB,
+                                        std::set<std::string> & listaCheck,
+                                        std::vector<Vertice *> & recorrido);
+
 
   private:
     std::map<std::string, Vertice *> vertices;

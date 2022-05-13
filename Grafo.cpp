@@ -10,6 +10,11 @@ getVertices(void) {
 }
 
 
+std::map<std::string, std::map<std::string, std::pair<Vertice *, int>>> & Grafo::
+getListaAdy(void) {
+    return listaAdy;
+}
+
 void Grafo::
 addVertice(const std::string & nombre, const std::string & IP, int valor) {
     // Comprueba si el vertice existe ya
@@ -69,3 +74,103 @@ printVertices() const {
         std::cout << std::endl;
     }
 }
+
+bool Grafo::
+existeVertice(const std::string & nombre) {
+    return vertices.find(nombre) != vertices.end();
+}
+
+bool Grafo::
+sonVecinosDirectos(const std::string & nombreA, const std::string & nombreB) {
+    if (listaAdy.find(nombreA) == listaAdy.end()
+            or
+            listaAdy.find(nombreB) == listaAdy.end())
+        return false;
+
+    for (const auto & vecino : listaAdy.find(nombreA)->second) {
+        if (vecino.second.first->nombre == nombreB)
+            return true;
+    }
+    return false;
+}
+
+bool Grafo::
+compartenRed(const std::string & nombreA, const std::string & nombreB) {
+    if (not existeVertice(nombreA) or not existeVertice(nombreB))
+        return false;
+
+    std::set<std::string> listaCheck;
+    std::vector<std::string> recorrido {nombreA};
+
+    return compartenRed(nombreA, nombreB, listaCheck, recorrido);
+}
+
+bool Grafo::
+compartenRed(const std::string & nombreA, const std::string & nombreB,
+             std::set<std::string> & listaCheck, std::vector<std::string> & recorrido) {
+
+    if (sonVecinosDirectos(nombreA, nombreB))
+        return true;
+
+    for (const auto & vecino : listaAdy.find(nombreA)->second) {
+        if (listaCheck.find(vecino.second.first->nombre) == listaCheck.end()
+                and
+                not enLista(vecino.second.first->nombre, recorrido)) {
+
+            recorrido.push_back(vecino.second.first->nombre);
+            return compartenRed(vecino.second.first->nombre, nombreB, listaCheck, recorrido);
+        }
+    }
+
+    listaCheck.insert(nombreA);
+    recorrido.pop_back();
+
+    if (not recorrido.empty())
+        return compartenRed(recorrido.back(), nombreB, listaCheck, recorrido);
+
+    else
+        return false;
+}
+
+/*std::vector<Vertice *> Grafo::
+shortestPath(const std::string & nombreA, const std::string & nombreB) {
+    if (not existeVertice(nombreA) or not existeVertice(nombreB))
+        return {};
+
+    if (not compartenRed(nombreA, nombreB))
+        return {};
+
+    std::set<std::string> listaCheck;
+    std::vector<Vertice *> recorrido {vertices.find(nombreA)->second};
+
+    return shortestPath(nombreA, nombreB, listaCheck, recorrido);
+}*/
+
+/*std::vector<Vertice *> Grafo::
+shortestPath(const std::string & nombreA, const std::string & nombreB,
+             std::set<std::string> & listaCheck, std::vector<Vertice *> & recorrido) {
+
+    if (sonVecinosDirectos(nombreA, nombreB)) {
+        recorrido.push_back(vertices.find(nombreB)->second);
+        return recorrido;
+    }
+
+    for (const auto & vecino : listaAdy.find(nombreA)->second) {
+        if (listaCheck.find(vecino.second.first->nombre) == listaCheck.end()
+                and
+                not enLista(vecino.second.first->nombre, recorrido)) {
+
+            recorrido.push_back(vecino.second.first->nombre);
+            return compartenRed(vecino.second.first->nombre, nombreB, listaCheck, recorrido);
+        }
+    }
+
+    listaCheck.insert(nombreA);
+    recorrido.pop_back();
+
+    if (not recorrido.empty())
+        return compartenRed(recorrido.back(), nombreB, listaCheck, recorrido);
+
+    else
+        return false;
+}*/

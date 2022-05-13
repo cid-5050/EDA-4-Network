@@ -2,7 +2,9 @@
 #define NETWORK_H
 
 #include <iostream>
+#include <set>
 #include <Grafo.h>
+#include <funciones.h>
 
 
 class Network {
@@ -10,10 +12,13 @@ class Network {
     Network();
 
     void nuevoRouter(const std::string & nombre);
-    void conectarRouters(const std::string & nombreA, const std::string & nombreB);
+    void conectarRouters(const std::string & nombreA, const std::string & nombreB, int tiempo);
     void printNetwork(void) const;
 
     std::string generarIP(void);
+
+    bool existeRouter(const std::string & nombre);
+    bool compartenRed(const std::string & nombreA, const std::string & nombreB);
 
  private:
     Grafo red;

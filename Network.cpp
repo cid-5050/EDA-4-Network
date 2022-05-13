@@ -11,8 +11,8 @@ nuevoRouter(const std::string & nombre) {
 }
 
 void Network::
-conectarRouters(const std::string & nombreA, const std::string & nombreB) {
-    red.addArista(nombreA, nombreB, 0);
+conectarRouters(const std::string & nombreA, const std::string & nombreB, int tiempo) {
+    red.addArista(nombreA, nombreB, tiempo);
 }
 
 void Network::
@@ -23,4 +23,14 @@ printNetwork(void) const {
 std::string Network::
 generarIP(void) {
     return ("192.168.0." + std::to_string(red.getVertices().size() + 1));
+}
+
+bool Network::
+existeRouter(const std::string & nombre) {
+    return red.existeVertice(nombre);
+}
+
+bool Network::
+compartenRed(const std::string & nombreA, const std::string & nombreB) {
+    return red.compartenRed(nombreA, nombreB);
 }
