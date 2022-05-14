@@ -1,3 +1,12 @@
+/*
+   Estructuras de Datos y Algoritmos
+   Práctica IV
+
+   Alumnos:
+    * Rodrigo Palop Bauza
+    * Renato Agustin Montenegro Palma
+*/
+
 #include <iostream>
 #include <Network.h>
 
